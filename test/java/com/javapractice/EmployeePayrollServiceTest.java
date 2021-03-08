@@ -16,7 +16,6 @@ public class EmployeePayrollServiceTest {
          EmployeePayrollService employeePayrollService;
          employeePayrollService = new EmployeePayrollService(Arrays.asList(arrayOFEmp));
          employeePayrollService.writeEmployeePayrollData(EmployeePayrollService.IOService.FILE_IO);
-         employeePayrollService.printData(EmployeePayrollService.IOService.FILE_IO);
          long entries =employeePayrollService.countEntries(EmployeePayrollService.IOService.FILE_IO);
          Assertions.assertEquals(3,entries);
      }
