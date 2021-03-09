@@ -2,10 +2,11 @@ package com.javapractice;
 
 import java.io.IOException;
 import java.nio.file.*;
+import static java.nio.file.StandardWatchEventKinds.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.HashMap;
 import java.util.Map;
-/*
+
 public class Java8WatchServiceExample {
 
     private final WatchService watcher;
@@ -51,7 +52,7 @@ public class Java8WatchServiceExample {
                 WatchEvent.Kind kind = event.kind();
                 Path name = ((WatchEvent<Path>) event).context();
                 Path child = dir.resolve(name);
-                System.out.format("%s: %s\n", event.kind(), name(), child);
+                System.out.format("%s: %s\n", event.kind().name(), child);
 
                 if (kind == ENTRY_CREATE) {
                     try {
@@ -71,4 +72,3 @@ public class Java8WatchServiceExample {
         }
     }
 }
-*/
