@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeePayrollFileIOService {
@@ -29,6 +30,7 @@ public class EmployeePayrollFileIOService {
             e.printStackTrace();
         }
     }
+
     public long countEntries() {
         long entries = 0;
         try{
@@ -38,5 +40,16 @@ public class EmployeePayrollFileIOService {
             e.printStackTrace();
         }
         return entries;
+    }
+    public List readData(){
+        List<String> employeePayrollDataList = new ArrayList<>();
+        try{
+            Files.lines(new File("payroll-file.txt").toPath())
+                    .map(line->line.trim())
+                    .forEach(line -> employeePayrollDataList.add(line));
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        return employeePayrollDataList;
     }
 }
