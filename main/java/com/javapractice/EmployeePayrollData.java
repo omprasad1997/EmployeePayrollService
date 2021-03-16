@@ -1,14 +1,23 @@
 package com.javapractice;
 
-public class EmployeePayrollData {
-    private int id;
-    private String name;
-    private double salary;
+import java.time.LocalDate;
+import java.util.Objects;
 
-    public EmployeePayrollData(int id, String name, double salary) {
+public class EmployeePayrollData {
+    public int id;
+    public String name;
+    public double salary;
+    public LocalDate startDate;
+
+    public EmployeePayrollData(Integer id, String name, double salary) {
         this.id = id;
         this.name = name;
         this.salary = salary;
+    }
+
+    public EmployeePayrollData(int id, String name, double salary, LocalDate startDate) {
+        this(id,name,salary);
+        this.startDate = startDate;
     }
 
     public int getId() {
@@ -37,10 +46,20 @@ public class EmployeePayrollData {
 
     @Override
     public String toString() {
-        return "EmployeePayroll{" +
+        return "EmployeePayrollData{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", salary=" + salary +
+                ", startDate=" + startDate +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EmployeePayrollData that = (EmployeePayrollData) o;
+        return id == that.id && Double.compare(that.salary, salary) == 0 &&
+                name.equals(that.name);
     }
 }
