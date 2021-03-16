@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class EmployeePayrollServiceTest {
      @Test
@@ -26,5 +27,21 @@ public class EmployeePayrollServiceTest {
          EmployeePayrollService employeePayrollService = new EmployeePayrollService();
          long entries = employeePayrollService.readEmployeePayrollData(EmployeePayrollService.IOService.FILE_IO);
          Assertions.assertEquals(3,entries);
+     }
+
+     @Test
+     public void givenEmployeePayrollInDB_WhenRetrieved_ShouldMatchEmployeeCount(){
+         EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+         List<EmployeePayrollData>  employeePayrollData = employeePayrollService.readEmployeePayrollDataFromDB(EmployeePayrollService.IOService.DB_IO);
+         Assertions.assertEquals(3,employeePayrollData.size());
+     }
+
+    @Test
+   public void givenNewSalaryForEmployee_WhenUpdated_ShouldSyncWithDB() {
+        EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+        List<EmployeePayrollData>  employeePayrollData = employeePayrollService.readEmployeePayrollDataFromDB(EmployeePayrollService.IOService.DB_IO);
+        employeePayrollService.updateEmployeeSalary("Terisa",3000000.00);
+        boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB("Terisa");
+        Assertions.assertTrue(result);
      }
 }
