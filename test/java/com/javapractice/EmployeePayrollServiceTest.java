@@ -3,6 +3,8 @@ package com.javapractice;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -46,7 +48,7 @@ public class EmployeePayrollServiceTest {
         boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB("Terisa");
         Assertions.assertTrue(result);
      }
-
+//-------+
     @Test
     public void givenDateRange_WhenRetrieved_ShouldMatchEmployeeCount() {
         EmployeePayrollService employeePayrollService = new EmployeePayrollService();
@@ -76,5 +78,28 @@ public class EmployeePayrollServiceTest {
         employeePayrollService.addEmployeeToPayroll("Mark",5000000.00,LocalDate.now(),"M");
         boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB("Mark");
         Assertions.assertTrue(result);
+    }
+
+    @Test
+    public void given6Employees_WhenAddedToDB_ShouldMatchEmployeeEntries(){
+         EmployeePayrollData[] arrayOfEmps={
+                 new EmployeePayrollData(0,"Jeff Bezos","M",1000000.0,LocalDate.now()),
+                 new EmployeePayrollData(0,"Bill Gate","M",2000000.0,LocalDate.now()),
+                 new EmployeePayrollData(0,"Mark Z","M",3000000.0,LocalDate.now()),
+                 new EmployeePayrollData(0,"Sundar","M",4000000.0,LocalDate.now()),
+                 new EmployeePayrollData(0,"Mukesh","M",5000000.0,LocalDate.now()),
+                 new EmployeePayrollData(0,"Anil","M",6000000.0,LocalDate.now())
+         };
+         EmployeePayrollService  employeePayrollService = new EmployeePayrollService();
+         employeePayrollService.readEmployeePayrollDataFromDB(EmployeePayrollService.IOService.DB_IO);
+         Instant start = Instant.now();
+         employeePayrollService.addEmployeesToPayroll(Arrays.asList(arrayOfEmps));
+         Instant end = Instant.now();
+         System.out.println("Duration without thread : "+Duration.between(start,end));
+         Instant threadStart = Instant.now();
+         employeePayrollService.addEmployeesToPayrollWithThread(Arrays.asList(arrayOfEmps));
+         Instant threadEnd = Instant.now();
+         System.out.println("Duration with thread : "+Duration.between(threadStart,threadEnd));
+         Assertions.assertEquals(15,employeePayrollService.countEntries(EmployeePayrollService.IOService.DB_IO));
     }
 }
